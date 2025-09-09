@@ -1,6 +1,10 @@
-export const initialStore=()=>{
-  return{
+import { AddContact } from "./pages/AddContact"
+
+export const initialStore = () => {
+  return {
     message: null,
+    agendas: null,
+    contacts: [],
     todos: [
       {
         id: 1,
@@ -17,10 +21,27 @@ export const initialStore=()=>{
 }
 
 export default function storeReducer(store, action = {}) {
-  switch(action.type){
+  switch (action.type) {
+    
+    case "saveSingleContact":
+  return {
+    ...store,
+    singleContact: action.payload,
+  };
+    case "addContact":
+      return {
+        ...store,
+        contacts: [...store.contacts, action.payload],
+      };
+    case "saveContacts":
+      return {
+        ...store,
+        contacts: action.payload.contacts,
+      };
+
     case 'add_task':
 
-      const { id,  color } = action.payload
+      const { id, color } = action.payload
 
       return {
         ...store,
@@ -28,5 +49,5 @@ export default function storeReducer(store, action = {}) {
       };
     default:
       throw Error('Unknown action.');
-  }    
+  }
 }
